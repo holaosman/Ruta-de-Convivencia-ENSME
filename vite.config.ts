@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['ensme-192.png','ensme-512.png'],
+      includeAssets: ['ensme-512.png'],
       manifest: {
         name: 'Ruta de Convivencia ENSME',
         short_name: 'Convivencia ENSME',
@@ -18,7 +18,6 @@ export default defineConfig({
         start_url: '/',
         orientation: 'portrait-primary',
         icons: [
-          { src: '/ensme-192.png', sizes: '192x192', type: 'image/png' },
           { src: '/ensme-512.png', sizes: '512x512', type: 'image/png' },
           { src: '/ensme-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
         ]
@@ -26,14 +25,10 @@ export default defineConfig({
       workbox: {
         navigateFallback: '/index.html',
         runtimeCaching: [{
-          urlPattern: ({url}) => url.pathname.startsWith('/api/'),
+          urlPattern: ({ url }) => url.pathname.startsWith('/api/'),
           handler: 'NetworkOnly'
         }]
       }
     })
-  ],
-  server: {
-    port: 5173,
-    proxy: { '/api': 'http://localhost:8787' }
-  }
+  ]
 });
