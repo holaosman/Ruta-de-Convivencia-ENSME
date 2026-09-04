@@ -1,0 +1,20 @@
+{
+  "nombre": "Manual de Convivencia - I.E. Escuela Normal Superior María Escolástica",
+  "archivo": "MANUAL DE COINVIVENCIA ENSEME-2026-2027-actualizado.pdf",
+  "version_institucional": "Actualizado al 04-diciembre de 2025",
+  "paginas_pdf": 105,
+  "fecha_indexacion": "2026-09-04",
+  "matriz_extraida": true,
+  "matriz_registros": 78,
+  "paginas_clave": {
+    "articulo_9_debido_proceso": [35,36],
+    "articulo_10_tipo_I": [36,37,38,39,40],
+    "articulo_10_tipo_II": [40,41,42],
+    "articulo_10_tipo_III": [43,44,45],
+    "articulo_11_conducto_regular": [45,46],
+    "articulo_12_observador": [46,47],
+    "articulo_13_intencion_procedimientos": [47,48],
+    "articulo_45_ruta_integral": [87,88,89,90,91,92,93],
+    "articulo_46_formalizacion": [93,94]
+  }
+}
