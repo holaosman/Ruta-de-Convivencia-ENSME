@@ -1,55 +1,74 @@
 # Ruta de Convivencia ENSME
 
-Aplicación web progresiva (PWA), optimizada para teléfonos, de la **I.E. Escuela Normal Superior María Escolástica**. Permite redactar una situación de convivencia sin datos personales y obtener una orientación preliminar sustentada en la matriz extraída del Manual de Convivencia institucional y, cuando el índice completo del PDF está cargado, en fragmentos recuperados mediante RAG.
+Aplicación móvil PWA de la **Institución Educativa Escuela Normal Superior María Escolástica (ENSME)** para orientación preliminar de situaciones de convivencia escolar.
 
-## Manual institucional
+## Despliegue elegido: Vercel + Gemini
 
-La matriz inicial se extrajo del **Manual de Convivencia ENSME actualizado**, cargado para el desarrollo de la aplicación. Contiene 78 registros de conductas/situaciones con artículo, numeral, página PDF y fragmento. La terminología institucional actual diferencia, entre otras, Situaciones Tipo I por conducta leve y grave, Situaciones Tipo II y Tipo III. La aplicación no equipara automáticamente estas categorías con la clasificación legal de la Ruta de Atención Integral: ambas se analizan por separado.
+Esta versión está adaptada específicamente para **Vercel**. La interfaz React se publica como sitio Vite/PWA y el análisis se ejecuta en una **Vercel Function** en `/api/analyze`. La variable `GEMINI_API_KEY` se usa únicamente en el servidor y nunca se expone en el navegador.
 
-El repositorio público **no incluye el PDF completo del manual**. La ruta privada `/admin` permite cargar la versión institucional aprobada; al hacerlo, el servidor genera el índice de páginas para RAG. La matriz normativa debe revisarse nuevamente cuando cambie el manual.
+## Fuente institucional fija y revisable
 
-## Funciones
+Se usa la opción institucional más segura: la versión aprobada del Manual se prepara, revisa y versiona junto con la aplicación; la app no permite reemplazarla desde el teléfono.
 
-- Interfaz móvil mínima: escudo, título, caja de relato y botón **Analizar situación**.
-- Detección preventiva de posibles nombres, teléfonos, documentos, correos y direcciones.
-- No guarda consultas ni historial.
-- Clasificación institucional y clasificación Tipo I/II/III separadas.
-- Artículo, numeral, página/sección, fragmento y nivel de coincidencia.
-- Conducto regular, acciones pedagógicas/restaurativas, normas oficiales y posible ruta externa.
-- Lenguaje precautorio: no declara culpabilidad, delito, diagnóstico ni sanción automática.
-- Backend seguro: `GEMINI_API_KEY` nunca se expone al navegador.
-- Si Gemini no está configurado o falla, usa un análisis local conservador basado en la matriz.
-- PWA instalable en Android y iPhone.
+Archivos de fuente usados por el RAG:
 
-## Desarrollo local
+- `data/manual-pages.br.b64`: índice Brotli del **texto completo de las 105 páginas PDF** del Manual institucional.
+- `data/matrix/*.jsonpart`: matriz estructurada de **78 conductas/situaciones**, con artículo, numeral, página y sección.
+- `data/manual-metadata.json`: versión, fecha de indexación y páginas clave.
+- `MATRIZ_REVISION.md`: resumen para revisión institucional.
 
-```bash
-npm install
-cp .env.example .env
-npm run dev
+La versión actualmente indexada corresponde al Manual **actualizado al 04-diciembre de 2025**.
+
+Cuando la institución apruebe una nueva versión, primero se revisa el nuevo PDF y su matriz. Después se actualizan estos archivos en GitHub y Vercel despliega automáticamente la nueva versión. Así, un documento no revisado no puede cambiar silenciosamente las reglas usadas por la aplicación.
+
+> El PDF original que dio origen a este índice no se necesita en tiempo de ejecución de Vercel: el backend trabaja con el texto completo indexado y la matriz verificada. Esto reduce tamaño, acelera la función y evita escritura en disco.
+
+## Clasificaciones
+
+La aplicación diferencia obligatoriamente:
+
+1. **Clasificación según el Manual institucional**, conservando la terminología exacta del documento.
+2. **Clasificación según la Ruta de Convivencia** (Tipo I, Tipo II, Tipo III, otra ruta o no determinada).
+
+No se asume equivalencia automática entre ambas clasificaciones.
+
+## Privacidad y seguridad
+
+- No se guarda historial de consultas.
+- Se detectan posibles nombres, documentos, teléfonos y correos antes del análisis.
+- No se envía ninguna clave al frontend.
+- No declara culpabilidad, no impone sanciones y no afirma que ocurrió un delito.
+- Las respuestas son orientaciones preliminares y deben ser verificadas por la autoridad institucional competente.
+- `/api/analyze` responde con `Cache-Control: no-store`.
+- No existe panel `/admin` ni carga remota del Manual en esta versión.
+
+## Variables de entorno en Vercel
+
+En **Project > Settings > Environment Variables** configure:
+
+```text
+GEMINI_API_KEY = su_clave_privada_de_Gemini
+GEMINI_MODEL   = gemini-3.6-flash
 ```
 
-Variables de entorno:
+Si su proyecto de Google usa otro identificador de modelo, cambie únicamente `GEMINI_MODEL`.
 
-```env
-GEMINI_API_KEY=
-GEMINI_MODEL=gemini-3.6-flash
-ADMIN_TOKEN=use-un-token-privado-largo
-PORT=8787
-```
+## Publicar en Vercel
 
-## Publicación recomendada: Render
+1. Importe el repositorio `holaosman/Ruta-de-Convivencia-ENSME` en Vercel.
+2. Framework Preset: **Vite**.
+3. Build Command: `npm run build`.
+4. Output Directory: `dist`.
+5. Agregue las dos variables de entorno anteriores.
+6. Pulse **Deploy**.
 
-GitHub Pages por sí solo no es suficiente, porque el análisis con IA necesita un servidor que mantenga la clave privada. El repositorio incluye `render.yaml`.
+No es necesario configurar base de datos ni almacenamiento externo.
 
-1. En Render, cree un **Web Service** desde este repositorio.
-2. Build command: `npm install && npm run build`.
-3. Start command: `npm start`.
-4. Configure `GEMINI_API_KEY` y un `ADMIN_TOKEN` robusto.
-5. Render entregará una URL HTTPS que podrá instalarse como PWA.
+## API
 
-**Persistencia del manual:** en un hosting con sistema de archivos efímero, un PDF subido desde `/admin` puede perderse al reiniciar el servicio. Para conservar actualizaciones del manual use almacenamiento persistente o incorpore el índice aprobado a una nueva versión del repositorio.
+- `POST /api/analyze` - recibe `{ "text": "..." }` y devuelve la orientación estructurada.
+- `GET /api/health` - comprueba la función y reporta la versión del Manual cargado.
 
-## Aviso institucional
+## PWA
 
-> Este resultado es una orientación preliminar basada en la situación escrita, el Manual de Convivencia institucional y la normatividad consultada. No constituye una sanción ni una decisión jurídica. La clasificación y las actuaciones deben ser verificadas por la autoridad institucional competente, garantizando el debido proceso y los derechos del estudiante.
+La aplicación está preparada para instalarse desde el navegador en Android y iPhone. El service worker no almacena respuestas de `/api/*`; las consultas siempre usan red.

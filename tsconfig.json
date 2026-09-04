@@ -3,7 +3,6 @@
     "target": "ES2022",
     "useDefineForClassFields": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -17,5 +16,16 @@
     "jsx": "react-jsx",
     "types": ["vite/client", "vite-plugin-pwa/client"]
   },
-  "include": ["src", "server", "shared", "vite.config.ts"]
+  "include": [
+    "src",
+    "api",
+    "shared",
+    "server/analysis.ts",
+    "server/fallback.ts",
+    "server/manualStore.ts",
+    "server/norms.ts",
+    "server/pii.ts",
+    "server/retrieval.ts",
+    "vite.config.ts"
+  ]
 }
