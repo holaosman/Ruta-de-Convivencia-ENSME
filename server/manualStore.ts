@@ -5,7 +5,11 @@ import type { MatrixRecord } from '../shared/types.js';
 
 const DATA_DIR = path.resolve(process.cwd(), 'data');
 
-export interface ManualPage { page: number; text: string; }
+export interface ManualPage {
+  page: number;
+  text: string;
+}
+
 export interface ManualMetadata {
   nombre: string;
   archivo: string;
@@ -19,19 +23,30 @@ export interface ManualMetadata {
 export function loadMatrix(): MatrixRecord[] {
   const partsDir = path.join(DATA_DIR, 'matrix');
   const merged = fs.readdirSync(partsDir)
-    .filter(name => name.endsWith('.jsonpart'))
+    .filter((name) => name.endsWith('.jsonpart'))
     .sort()
-    .map(name => fs.readFileSync(path.join(partsDir, name), 'utf-8'))
+    .map((name) => fs.readFileSync(path.join(partsDir, name), 'utf-8'))
     .join('');
+
   return JSON.parse(merged) as MatrixRecord[];
 }
 
 export function loadPages(): ManualPage[] {
-  const encoded = fs.readFileSync(path.join(DATA_DIR, 'manual-pages.br.b64'), 'utf-8');
+  const partsDir = path.join(DATA_DIR, 'pages');
+  const encoded = fs.readdirSync(partsDir)
+    .filter((name) => name.endsWith('.b64part'))
+    .sort()
+    .map((name) => fs.readFileSync(path.join(partsDir, name), 'utf-8'))
+    .join('');
+
   const compressed = Buffer.from(encoded, 'base64');
-  return JSON.parse(brotliDecompressSync(compressed).toString('utf-8')) as ManualPage[];
+  return JSON.parse(
+    brotliDecompressSync(compressed).toString('utf-8')
+  ) as ManualPage[];
 }
 
 export function loadMetadata(): ManualMetadata {
-  return JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'manual-metadata.json'), 'utf-8')) as ManualMetadata;
+  return JSON.parse(
+    fs.readFileSync(path.join(DATA_DIR, 'manual-metadata.json'), 'utf-8')
+  ) as ManualMetadata;
 }

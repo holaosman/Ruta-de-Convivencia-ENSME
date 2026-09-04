@@ -12,7 +12,7 @@ Se usa la opción institucional más segura: la versión aprobada del Manual se 
 
 Archivos de fuente usados por el RAG:
 
-- `data/manual-pages.br.b64`: índice Brotli del **texto completo de las 105 páginas PDF** del Manual institucional.
+- `data/pages/*.b64part`: índice Brotli/base64 del **texto completo de las 105 páginas PDF** del Manual institucional.
 - `data/matrix/*.jsonpart`: matriz estructurada de **78 conductas/situaciones**, con artículo, numeral, página y sección.
 - `data/manual-metadata.json`: versión, fecha de indexación y páginas clave.
 - `MATRIZ_REVISION.md`: resumen para revisión institucional.
@@ -21,7 +21,7 @@ La versión actualmente indexada corresponde al Manual **actualizado al 04-dicie
 
 Cuando la institución apruebe una nueva versión, primero se revisa el nuevo PDF y su matriz. Después se actualizan estos archivos en GitHub y Vercel despliega automáticamente la nueva versión. Así, un documento no revisado no puede cambiar silenciosamente las reglas usadas por la aplicación.
 
-> El PDF original que dio origen a este índice no se necesita en tiempo de ejecución de Vercel: el backend trabaja con el texto completo indexado y la matriz verificada. Esto reduce tamaño, acelera la función y evita escritura en disco.
+> El PDF original que dio origen a este índice no se necesita en tiempo de ejecución de Vercel: el backend trabaja con el texto completo indexado y la matriz verificada. Esto reduce tamaño y evita escritura persistente en el servidor.
 
 ## Clasificaciones
 
