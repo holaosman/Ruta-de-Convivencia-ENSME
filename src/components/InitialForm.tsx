@@ -26,24 +26,11 @@ export function InitialForm({onAnalyze,loading,error}:{onAnalyze:(text:string)=>
     <section className="composer-card">
       <label htmlFor="situation" className="label">Describa la situación</label>
       <p className="helper">Describa brevemente lo sucedido, sin incluir nombres ni datos personales.</p>
-      <textarea
-        id="situation"
-        value={text}
-        onChange={e=>setText(e.target.value)}
-        placeholder={EXAMPLE}
-        rows={8}
-        maxLength={3000}
-        autoCapitalize="sentences"
-        autoCorrect="on"
-      />
+      <textarea id="situation" value={text} onChange={e=>setText(e.target.value)} placeholder={EXAMPLE} rows={8} maxLength={3000} autoCapitalize="sentences" autoCorrect="on" />
       <div className="textarea-meta"><span>{text.length}/3000</span></div>
-
       {pii && <div className="privacy-alert" role="alert"><ShieldAlert size={20}/><span>Por protección de datos de niños, niñas y adolescentes, elimine los nombres y demás información personal antes de continuar.</span></div>}
       {error && <div className="error-alert" role="alert">{error}</div>}
-
-      <button className="primary-button" disabled={disabled} onClick={()=>onAnalyze(text.trim())}>
-        {loading ? <><span className="spinner"/>Analizando...</> : <><Search size={21}/>Analizar situación</>}
-      </button>
+      <button className="primary-button" disabled={disabled} onClick={()=>onAnalyze(text.trim())}>{loading ? <><span className="spinner"/>Analizando...</> : <><Search size={21}/>Analizar situación</>}</button>
       <p className="privacy-note">La consulta no se guarda. El análisis se procesa de forma temporal y se elimina al cerrar el resultado.</p>
     </section>
   </main>
