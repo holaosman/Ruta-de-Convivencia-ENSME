@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['ensme-512.png'],
+      includeAssets: ['ensme-logo-v2.png'],
       manifest: {
         name: 'Ruta de Convivencia ENSME',
         short_name: 'Convivencia ENSME',
@@ -18,8 +18,8 @@ export default defineConfig({
         start_url: '/',
         orientation: 'portrait-primary',
         icons: [
-          { src: '/ensme-512.png', sizes: '512x512', type: 'image/png' },
-          { src: '/ensme-512.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+          { src: '/ensme-logo-v2.png', sizes: '512x512', type: 'image/png' },
+          { src: '/ensme-logo-v2.png', sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
         ]
       },
       workbox: {
