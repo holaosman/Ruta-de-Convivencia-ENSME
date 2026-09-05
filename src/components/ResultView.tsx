@@ -1,8 +1,8 @@
 import { AlertTriangle, ArrowLeft, BookOpen, CheckCircle2, ExternalLink, FileText, Gavel, GraduationCap, Info, Route, Scale, Shield, Users } from 'lucide-react';
 import type { AnalysisResult } from '../../shared/types';
+import { ENSME_LOGO } from '../logo';
 
 const NOTICE='Este resultado es una orientación preliminar basada en la situación escrita, el Manual de Convivencia institucional y la normatividad consultada. No constituye una sanción ni una decisión jurídica. La clasificación y las actuaciones deben ser verificadas por la autoridad institucional competente, garantizando el debido proceso y los derechos del estudiante';
-const LOGO='/ensme-256.webp?v=1';
 
 function Card({title,icon,children,className=''}:{title:string;icon:React.ReactNode;children:React.ReactNode;className?:string}) {
   return <section className={`result-card ${className}`}><div className="card-title">{icon}<h2>{title}</h2></div>{children}</section>
@@ -12,7 +12,7 @@ export function ResultView({result,onReset}:{result:AnalysisResult;onReset:()=>v
   const urgent=result.posible_ruta_externa?.requiere_valoracion || result.ruta_convivencia.clasificacion==='Tipo III';
   return <main className="results-shell">
     <header className="result-header">
-      <img src={LOGO} alt="Escudo ENSME" />
+      <img src={ENSME_LOGO} alt="Escudo ENSME" />
       <div><span>Ruta de Convivencia ENSME</span><small>{result.manual_version || 'Manual institucional vigente'}</small></div>
     </header>
 
