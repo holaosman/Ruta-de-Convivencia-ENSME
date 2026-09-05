@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
 import { Search, ShieldAlert } from 'lucide-react';
+import { ENSME_LOGO } from '../logo';
 
 const EXAMPLE = 'Un estudiante interrumpió repetidamente la clase, utilizó expresiones irrespetuosas y no atendió las indicaciones del docente';
-const LOGO = '/ensme-256.webp?v=1';
 
 function mayContainPII(text:string) {
   if (/\b\d{7,12}\b/.test(text) || /@/.test(text) || /\b(?:calle|carrera|cra\.?|avenida)\s+\d+/i.test(text)) return true;
@@ -16,7 +16,7 @@ export function InitialForm({onAnalyze,loading,error}:{onAnalyze:(text:string)=>
   const disabled=loading || text.trim().length<8 || pii;
   return <main className="home-shell">
     <section className="brand" aria-label="Institución Educativa Escuela Normal Superior María Escolástica">
-      <img src={LOGO} alt="Escudo de la Escuela Normal Superior María Escolástica" className="logo" />
+      <img src={ENSME_LOGO} alt="Escudo de la Escuela Normal Superior María Escolástica" className="logo" />
       <div>
         <p className="eyebrow">I.E. ESCUELA NORMAL SUPERIOR MARÍA ESCOLÁSTICA</p>
         <h1>Ruta de Convivencia ENSME</h1>
