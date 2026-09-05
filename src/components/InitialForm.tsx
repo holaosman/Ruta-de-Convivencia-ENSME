@@ -22,7 +22,6 @@ export function InitialForm({onAnalyze,loading,error}:{onAnalyze:(text:string)=>
         <h1>Ruta de Convivencia ENSME</h1>
       </div>
     </section>
-
     <section className="composer-card">
       <label htmlFor="situation" className="label">Describa la situación</label>
       <p className="helper">Describa brevemente lo sucedido, sin incluir nombres ni datos personales.</p>
