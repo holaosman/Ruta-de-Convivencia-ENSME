@@ -15,7 +15,7 @@ export function InitialForm({onAnalyze,loading,error}:{onAnalyze:(text:string)=>
   const disabled=loading || text.trim().length<8 || pii;
   return <main className="home-shell">
     <section className="brand" aria-label="Institución Educativa Escuela Normal Superior María Escolástica">
-      <img src="/ensme-512.png" alt="Escudo de la Escuela Normal Superior María Escolástica" className="logo" />
+      <img src="/ensme-logo-v2.png" alt="Escudo de la Escuela Normal Superior María Escolástica" className="logo" />
       <div>
         <p className="eyebrow">I.E. ESCUELA NORMAL SUPERIOR MARÍA ESCOLÁSTICA</p>
         <h1>Ruta de Convivencia ENSME</h1>
