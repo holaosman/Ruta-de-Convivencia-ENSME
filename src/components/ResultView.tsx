@@ -2,6 +2,7 @@ import { AlertTriangle, ArrowLeft, BookOpen, CheckCircle2, ExternalLink, FileTex
 import type { AnalysisResult } from '../../shared/types';
 
 const NOTICE='Este resultado es una orientación preliminar basada en la situación escrita, el Manual de Convivencia institucional y la normatividad consultada. No constituye una sanción ni una decisión jurídica. La clasificación y las actuaciones deben ser verificadas por la autoridad institucional competente, garantizando el debido proceso y los derechos del estudiante';
+const LOGO='/ensme-256.webp?v=1';
 
 function Card({title,icon,children,className=''}:{title:string;icon:React.ReactNode;children:React.ReactNode;className?:string}) {
   return <section className={`result-card ${className}`}><div className="card-title">{icon}<h2>{title}</h2></div>{children}</section>
@@ -9,12 +10,9 @@ function Card({title,icon,children,className=''}:{title:string;icon:React.ReactN
 
 export function ResultView({result,onReset}:{result:AnalysisResult;onReset:()=>void}) {
   const urgent=result.posible_ruta_externa?.requiere_valoracion || result.ruta_convivencia.clasificacion==='Tipo III';
-  const manualTitle=result.clasificacion_manual.conducta_relacionada?.trim();
-  const manualExplanation=result.clasificacion_manual.explicacion?.trim();
-  const repeatedNoMatch=manualTitle && manualExplanation && manualTitle===manualExplanation;
   return <main className="results-shell">
     <header className="result-header">
-      <img src="/ensme-logo-v2.png" alt="Escudo ENSME" />
+      <img src={LOGO} alt="Escudo ENSME" />
       <div><span>Ruta de Convivencia ENSME</span><small>{result.manual_version || 'Manual institucional vigente'}</small></div>
     </header>
 
@@ -26,8 +24,8 @@ export function ResultView({result,onReset}:{result:AnalysisResult;onReset:()=>v
 
     <Card title="Posible clasificación según el Manual" icon={<BookOpen size={20}/> }>
       <div className="classification-row"><span className="classification-pill">{result.clasificacion_manual.categoria || 'No se puede determinar'}</span><span className={`match ${result.clasificacion_manual.nivel_coincidencia}`}>Coincidencia {result.clasificacion_manual.nivel_coincidencia}</span></div>
-      {manualTitle && !repeatedNoMatch && <h3>{manualTitle}</h3>}
-      {manualExplanation && <p>{manualExplanation}</p>}
+      {result.clasificacion_manual.conducta_relacionada && <h3>{result.clasificacion_manual.conducta_relacionada}</h3>}
+      {result.clasificacion_manual.explicacion && result.clasificacion_manual.explicacion !== result.clasificacion_manual.conducta_relacionada && <p>{result.clasificacion_manual.explicacion}</p>}
       {(result.clasificacion_manual.articulo || result.clasificacion_manual.pagina_o_seccion) && <dl className="facts">
         <div><dt>Fundamento</dt><dd>{[result.clasificacion_manual.articulo,result.clasificacion_manual.numeral].filter(Boolean).join(' · ')}</dd></div>
         <div><dt>Ubicación</dt><dd>{result.clasificacion_manual.pagina_o_seccion}</dd></div>
