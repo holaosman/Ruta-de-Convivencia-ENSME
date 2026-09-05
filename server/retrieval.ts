@@ -26,7 +26,6 @@ const SYNONYMS: Record<string, string[]> = {
   tarde: ['llegar','puntualidad'],
   interrumpio: ['interferir','disruptivas','clase'],
   interrumpir: ['interferir','disruptivas','clase'],
-  interrumpio: ['interferir','disruptivas','clase'],
   repetidamente: ['repetitiva','repetitivas','recurrencia','reincidencia'],
   reincidio: ['reincidencia','recurrencia','repetitiva'],
 };
